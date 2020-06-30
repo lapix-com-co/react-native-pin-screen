@@ -21,7 +21,7 @@ public class RNPinScreenModule extends ReactContextBaseJavaModule {
 
   @Override
   public String getName() {
-    return "RNPinScreen";
+    return "ReactNativeLPinScreen";
   }
 
   @ReactMethod
@@ -59,6 +59,44 @@ public class RNPinScreenModule extends ReactContextBaseJavaModule {
                 WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
             );
           }
+        }
+      });
+    }
+  }
+
+  @ReactMethod
+  public void screenOn() {
+    final Activity activity = getCurrentActivity();
+    if (activity != null) {
+      activity.runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            activity.setTurnScreenOn(true);
+          } else {
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+          }
+
+          activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
+      });
+    }
+  }
+
+  @ReactMethod
+  public void screenOff() {
+    final Activity activity = getCurrentActivity();
+    if (activity != null) {
+      activity.runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            activity.setTurnScreenOn(false);
+          } else {
+            activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+          }
+
+          activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
       });
     }

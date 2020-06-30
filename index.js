@@ -1,6 +1,16 @@
 
 import { NativeModules } from 'react-native';
 
-const { RNPinScreen } = NativeModules;
+const { ReactNativeLPinScreen } = NativeModules;
 
-export default RNPinScreen;
+export const unlock = () => {
+  ReactNativeLPinScreen.pin();
+  ReactNativeLPinScreen.turnScreenOn();
+};
+
+export const lock = () => {
+  ReactNativeLPinScreen.unpin();
+  ReactNativeLPinScreen.turnScreenOff();
+};
+
+export default ReactNativeLPinScreen;
